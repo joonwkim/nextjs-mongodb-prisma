@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model TreeNode {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  icon     String?
+  url      String?
+  expanded Boolean    @default(false)
+  level    Int
+  parentId String?    @db.ObjectId
+  parent   TreeNode?  @relation("TreeRelation", fields: [parentId], references: [id],onDelete: NoAction, onUpdate: NoAction)
+  children TreeNode[] @relation("TreeRelation")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
