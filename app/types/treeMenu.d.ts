@@ -4,6 +4,7 @@ export interface TreeNode {
     icon: string;                   // Bootstrap icon class or any icon reference
     url?: string;                   // Optional navigation URL for the node
     expanded: boolean;              // Status to indicate whether the node is expanded or not
+    selected?: boolean;
     order?: number;
     level: number;                  // Recursive level of the node
     children?: TreeNode[];          // Recursive definition for child nodes

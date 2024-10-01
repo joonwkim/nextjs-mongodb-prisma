@@ -9,10 +9,12 @@ datasource db {
 
 model TreeNode {
   id       String     @id @default(auto()) @map("_id") @db.ObjectId
+   orderBy  Int?
   name     String
   icon     String?
   url      String?
   expanded Boolean    @default(false)
+  selected Boolean? @default(false)
   level    Int
   parentId String?    @db.ObjectId
   parent   TreeNode?  @relation("TreeRelation", fields: [parentId], references: [id],onDelete: NoAction, onUpdate: NoAction)

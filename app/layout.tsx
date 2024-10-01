@@ -98,7 +98,7 @@ export default function RootLayout({
           <div className='dFlex'>
             <div ref={sidebarRef} className='sidebar'>
               <h5>메뉴</h5>
-              <TreeView />
+              <TreeView theme={theme} />
             </div>
             <div onMouseDown={handleMouseDown} className='resizer' />
             <div className='mainContent'>

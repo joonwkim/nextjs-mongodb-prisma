@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { TreeNode } from '../../types/treeMenu';
 import './styles.css'
 import { useRouter } from 'next/navigation';
+import { setNodeSelectedAction, updateExpandStatusAction } from '@/app/actions/menu';
 
 interface TreeViewProps {
     nodes?: TreeNode[];
+    theme: 'light' | 'dark' | 'auto'
 }
 
 async function getTreeNodes(): Promise<TreeNode[]> {
@@ -12,7 +14,7 @@ async function getTreeNodes(): Promise<TreeNode[]> {
     return res.json();
 }
 
-const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
+const TreeView: React.FC<TreeViewProps> = ({ nodes, theme }) => {
     const [treeData, setTreeData] = useState<TreeNode[]>(nodes ? nodes : []);
     const [showMenu, setShowMenu] = useState<string | null>(null);
     const [showDialog, setShowDialog] = useState(false);
@@ -24,6 +26,7 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
         const fetch = async () => {
             const data = await getTreeNodes();
             setTreeData(data);
+            console.log('treeData: ', data)
         }
         fetch();
     }, [])
@@ -39,15 +42,18 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
         });
     };
 
-    const handleToggle = (id: string) => {
-        const updatedTree = toggleNode(id, treeData);
+    const handleToggle = async (node: TreeNode) => {
+        await updateExpandStatusAction(node);
+        const updatedTree = toggleNode(node.id, treeData);
+        console.log('updatedTree: ', updatedTree)
         setTreeData(updatedTree);
     };
 
-    const handleNodeClick = (url: string | undefined) => {
-        if (url) {
-            router.push(url);
-        }
+    const handleNodeClick = async (node: TreeNode) => {
+        await setNodeSelectedAction(node.id);
+        if (node.url) {
+            router.push(node.url);
+        }       
     };
 
     const openDialog = (node: TreeNode) => {
@@ -73,10 +79,10 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
     const renderTreeNodes = (nodeList: TreeNode[], level = 0) => {
         return (
             <ul className={`list-unstyled indent-${level}`}>
-                {nodeList.map(node => (
-                    <li key={node.id} className='nodeWrapper'>
+                {nodeList.length > 0 && nodeList.map(node => (
+                    <li key={node.id} className={`${node.selected ? theme === 'dark' ? 'selectedLeafNodeDark' : 'selectedLeafNodeLight' : ''}`}>
                         <div className='d-flex align-items-center justify-content-between nodeItem' onMouseEnter={() => setShowMenu(node.id)} onMouseLeave={() => setShowMenu(null)}                        >
-                            <div className="d-flex align-items-center" onClick={() => handleNodeClick(node.url)}>
+                            <div className="d-flex align-items-center" onClick={() => handleNodeClick(node)}>
                                 {/* Node Name and Icon */}
                                 <i className={`bi ${node.icon} me-2`} />
                                 <span>{node.name}</span>
@@ -87,7 +93,7 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
                                 {node.children && node.children.length > 0 && (
                                     <i
                                         className={`bi ${node.expanded ? 'bi-chevron-down' : 'bi-chevron-right'} chevron`}
-                                        onClick={() => handleToggle(node.id)}
+                                        onClick={() => handleToggle(node)}
                                     />
                                 )}
 

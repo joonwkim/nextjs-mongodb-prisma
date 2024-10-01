@@ -82,3 +82,10 @@
 .indent-8 {
     margin-left: 8rem;
 }
+.selectedLeafNodeDark {
+    background-color: #34495e;
+}
+
+.selectedLeafNodeLight {
+    background-color: #e0f7fa;
+}
