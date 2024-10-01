@@ -11,7 +11,7 @@ import BootstrapClient from "./components/bootstrapClient";
 import { useCallback, useEffect, useRef, useState } from "react";
 import TreeView from "./components/trees/treeView";
 
-const MIN_WIDTH = 200; 
+const MIN_WIDTH = 250;
 const MAX_WIDTH = 600; 
 
 const geistSans = localFont({

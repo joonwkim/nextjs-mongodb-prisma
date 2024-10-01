@@ -45,7 +45,6 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes, theme }) => {
     const handleToggle = async (node: TreeNode) => {
         await updateExpandStatusAction(node);
         const updatedTree = toggleNode(node.id, treeData);
-        console.log('updatedTree: ', updatedTree)
         setTreeData(updatedTree);
     };
 
