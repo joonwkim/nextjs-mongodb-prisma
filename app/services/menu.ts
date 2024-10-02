@@ -46,11 +46,15 @@ export async function setNodeSelected(nodeId: string) {
         const node = await prisma.treeNode.update({
             where: {
                 id: nodeId,
+                children: {
+                    none: {},
+                }
             },
             data: {
                 selected: true,
             }
         })
+        console.log('node selected: ', node)
         return node;
     } catch (error) {
         console.log(error)

@@ -7,8 +7,7 @@ import { TreeNode } from "../types/treeMenu";
 export async function setNodeSelectedAction(nodeId: string) {
     try {
         await setNodeSelected(nodeId);
-        revalidatePath('/');
-        return true;
+        revalidatePath('/');     
     } catch (error) {
         console.log(error)
     }

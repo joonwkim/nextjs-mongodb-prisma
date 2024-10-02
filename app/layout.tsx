@@ -25,7 +25,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const THEME_KEY = 'theme-preference';
+const THEME_KEY = 'theme';
 
 export default function RootLayout({
   children,
@@ -45,7 +45,8 @@ export default function RootLayout({
       setTheme(savedTheme);
       applyTheme(savedTheme);
     } else {
-      applyTheme('auto');
+      localStorage.setItem(THEME_KEY, 'light');
+      applyTheme('light');
     }
   }, [applyTheme]);
 

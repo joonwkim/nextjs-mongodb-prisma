@@ -50,9 +50,12 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes, theme }) => {
 
     const handleNodeClick = async (node: TreeNode) => {
         await setNodeSelectedAction(node.id);
+        const data = await getTreeNodes();
+        setTreeData(data);
         if (node.url) {
             router.push(node.url);
-        }       
+        }     
+        console.log('handleNodeClick', node)
     };
 
     const openDialog = (node: TreeNode) => {
