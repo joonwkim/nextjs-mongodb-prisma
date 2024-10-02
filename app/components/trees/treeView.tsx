@@ -54,8 +54,7 @@ const TreeView: React.FC<TreeViewProps> = ({ nodes, theme }) => {
         setTreeData(data);
         if (node.url) {
             router.push(node.url);
-        }     
-        console.log('handleNodeClick', node)
+        }           
     };
 
     const openDialog = (node: TreeNode) => {
